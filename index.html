@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name="description" content="Tech Radar: a tool to visualize technology choices, inspire and support Engineering teams to pick the best technologies for new projects">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tech Radar</title>
+<link rel="shortcut icon" href="favicon.ico">
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://zalando.github.io/tech-radar/radar.js"></script>
+<link rel="stylesheet" href="http://zalando.github.io/tech-radar/radar.css">
+</head>
+
+<body>
+
+<svg id="radar"></svg>
+
+<script>
+Promise.all([
+  fetch('./blips.json').then(response => response.json()),
+  fetch('./radar_config.json').then(response => response.json())
+]).then(function([blips, radar]) {
+  radar_visualization({
+    title: radar.title,
+    repo_url: radar.repo_url,
+    date: blips.date,
+    quadrants: radar.quadrants,
+    rings: radar.rings,
+    entries: blips.entries,
+    print_ring_descriptions_table: true
+  });
+}).catch(function(err) {
+  console.log('Error loading configuration files', err);
+});
+</script>
+
+</body>
+</html>
